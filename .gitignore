@@ -1,0 +1,22 @@
+# Datasets — add your own locally, not tracked in git
+*.csv
+*.xlsx
+*.xls
+
+# Python virtual environment
+ML/.env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Java compiled files
+*.class
+
+# OS files
+.DS_Store
+Thumbs.db

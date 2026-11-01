@@ -1,0 +1,65 @@
+/**
+ * Business Network Model File — Hyperledger Composer
+ * Defines all participants, assets, and transactions
+ * for a simple trade business network.
+ */
+
+// Every model file must declare a namespace
+namespace org.example.trading
+
+// ── ASSETS ────────────────────────────────────────────────
+// An asset is something of value that is tracked on the ledger.
+// 'Commodity' represents a tradeable good (e.g., wheat, oil, coffee)
+
+asset Commodity identified by tradingSymbol {
+    // Unique identifier for the commodity (e.g., "WHEAT", "OIL")
+    o String tradingSymbol
+
+    // Human-readable name of the commodity
+    o String description
+
+    // The commodity exchange where this is traded (e.g., "Chicago")
+    o String mainExchange
+
+    // Current quantity available
+    o Double quantity
+
+    // The trader who currently owns this commodity
+    --> Trader owner
+}
+
+// ── PARTICIPANTS ───────────────────────────────────────────
+// A participant is an entity (person or organization) in the network.
+// 'Trader' represents a buyer or seller of commodities.
+
+participant Trader identified by tradeId {
+    // Unique identifier for the trader
+    o String tradeId
+
+    // First name of the trader
+    o String firstName
+
+    // Last name of the trader
+    o String lastName
+}
+
+// ── TRANSACTIONS ───────────────────────────────────────────
+// A transaction is an action that modifies the state of assets/participants.
+// 'Trade' transfers ownership of a commodity from one trader to another.
+
+transaction Trade {
+    // The commodity being traded (reference to an existing Commodity asset)
+    --> Commodity commodity
+
+    // The trader who will receive ownership after the trade
+    --> Trader newOwner
+}
+
+// ── EVENTS ─────────────────────────────────────────────────
+// Events are notifications emitted when a transaction occurs.
+// External applications can subscribe to listen for these events.
+
+event TradeNotification {
+    // Which commodity was traded
+    --> Commodity commodity
+}

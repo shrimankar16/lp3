@@ -1,0 +1,22 @@
+# Requirements for LP3 ML Practicals
+# Install with: pip install -r requirements.txt
+# Note: versions are unpinned for Python 3.14+ compatibility
+
+# Core data handling
+numpy
+pandas
+
+# Machine learning
+scikit-learn
+
+# Deep learning (Practical 1 - Neural Network)
+tensorflow
+
+# Visualization
+matplotlib
+seaborn
+
+# Jupyter notebook environment
+jupyter
+notebook
+ipykernel

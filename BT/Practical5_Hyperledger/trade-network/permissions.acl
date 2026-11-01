@@ -1,0 +1,67 @@
+/**
+ * Access Control List (ACL) — Hyperledger Composer
+ * Defines who can do what in the business network.
+ * Rules are evaluated top-to-bottom; first matching rule wins.
+ */
+
+// Rule 1: Allow traders to see and modify only their own participant record
+// A trader should not be able to view or edit another trader's data
+rule TraderAccessOwnRecord {
+    description:    "Allow traders to view and edit their own record only"
+    participant(p): "org.example.trading.Trader"
+    operation:      READ, UPDATE
+    resource(r):    "org.example.trading.Trader"
+    condition:      (r.getIdentifier() === p.getIdentifier())
+    action:         ALLOW
+}
+
+// Rule 2: Allow traders to read all commodities on the network
+// A trader needs to see what commodities are available to trade
+rule TraderReadCommodities {
+    description:    "Allow traders to read all commodity assets"
+    participant:    "org.example.trading.Trader"
+    operation:      READ
+    resource:       "org.example.trading.Commodity"
+    action:         ALLOW
+}
+
+// Rule 3: Allow a commodity owner to update their own commodity
+// Only the current owner can modify the commodity they own
+rule OwnerUpdateCommodity {
+    description:    "Allow commodity owner to update their asset"
+    participant(p): "org.example.trading.Trader"
+    operation:      UPDATE
+    resource(r):    "org.example.trading.Commodity"
+    condition:      (r.owner.getIdentifier() === p.getIdentifier())
+    action:         ALLOW
+}
+
+// Rule 4: Allow traders to submit Trade transactions
+// Any registered trader can initiate a trade
+rule TraderCanTrade {
+    description:    "Allow traders to submit trade transactions"
+    participant:    "org.example.trading.Trader"
+    operation:      CREATE
+    resource:       "org.example.trading.Trade"
+    action:         ALLOW
+}
+
+// Rule 5: Network admin can do everything
+// The network administrator has full access to manage the network
+rule NetworkAdminUser {
+    description:    "Grant business network administrators full access"
+    participant:    "org.hyperledger.composer.system.NetworkAdmin"
+    operation:      ALL
+    resource:       "**"
+    action:         ALLOW
+}
+
+// Rule 6: Allow system-level operations for all participants
+// Required for Hyperledger Composer's internal system operations
+rule SystemACL {
+    description:    "System ACL to permit all access to system resources"
+    participant:    "org.hyperledger.composer.system.Participant"
+    operation:      ALL
+    resource:       "org.hyperledger.composer.system.**"
+    action:         ALLOW
+}

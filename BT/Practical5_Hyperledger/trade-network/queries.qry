@@ -1,0 +1,32 @@
+/**
+ * Queries File — Hyperledger Composer
+ * Named queries that can be run against the business network
+ * to retrieve assets and participants from the ledger.
+ */
+
+// Query 1: Get all commodities owned by a specific trader
+// Usage: selectCommoditiesByOwner(owner: "resource:org.example.trading.Trader#TRADER1")
+query selectCommoditiesByOwner {
+    description: "Select all commodities owned by a specific trader"
+    statement:
+        SELECT org.example.trading.Commodity
+            WHERE (owner == _$owner)
+}
+
+// Query 2: Get all commodities traded on a specific exchange
+// Usage: selectCommoditiesByExchange(exchange: "Chicago")
+query selectCommoditiesByExchange {
+    description: "Select all commodities traded on a specific exchange"
+    statement:
+        SELECT org.example.trading.Commodity
+            WHERE (mainExchange == _$exchange)
+}
+
+// Query 3: Get all commodities with quantity above a threshold
+// Usage: selectCommoditiesWithHighQuantity(threshold: 100.0)
+query selectCommoditiesWithHighQuantity {
+    description: "Select commodities with quantity above a given threshold"
+    statement:
+        SELECT org.example.trading.Commodity
+            WHERE (quantity > _$threshold)
+}
